@@ -1,23 +1,24 @@
+import { fetchAPI } from "../../lib/api";
 import Slider from "../../components/SliderComponent";
 
-export default function aboutUs() {
+export default function aboutUsPage({aboutUs}: any) {
     return (
         <div className="flex justify-center items-center h-full w-full flex-col">
-            <div className="flex flex-row w-full">
+            <div className="flex flex-row w-full h-full">
                 <div className="2xl:w-1/2">
-                    <div className="flex flex-col justify-center items-start 2xl:mx-40 2xl:my-40">
+                    <div className="flex flex-col justify-center items-start 2xl:mx-40 2xl:mb-40 2xl:mt-72">
                         <p className="text-blue-700 font-bold 2xl:text-6xl">Affida il tuo brand in mani esperte</p>
                         <p className="text-blue-700 2xl:text-xl 2xl:w-9/12 2xl:my-10 whitespace-pre-line">Un portfolio clienti di spicco, a cui dedicare tutta 
                         l'esperienza accumulata in oltre quarant'anni di attività. {`\n`} Al fianco dei nostri clienti per aiutarli a differenziarsi.</p>
                     </div>
                 </div>
-                <div className="flex bg-cover bg-no-repeat 2xl:w-1/2" style={{backgroundImage: `url(img2_home.png)`}} />
+                <div className="flex h-full bg-cover bg-center bg-no-repeat 2xl:w-1/2" style={{backgroundImage: `url(about_us.png)`, height: 900}} />
             </div>
-            <Slider />
+            <Slider slides={aboutUs.slider} />
             <div className="bg-gray-200 flex flex-row items-center justify-between
             2xl:w-10/12 2xl:my-24 2xl:py-24 2xl:px-24">
                 <div className="flex flex-col items-center w-3/12">
-                    <img alt="package" src="package.svg" width="143" height="148" />
+                    <img alt="48h" src="48h.svg" width="143" height="148" />
                     <p className="text-gray-700 font-bold text-2xl text-center 2xl:w-9/12 2xl:mt-10">CAMBIA IL TUO STILE IN 48H</p>
                 </div>
                 <div className="flex flex-col items-center w-3/12">
@@ -25,7 +26,7 @@ export default function aboutUs() {
                     <p className="text-gray-700 font-bold text-2xl text-center 2xl:w-9/12 2xl:mt-10">CONSEGNA & MONTAGGIO</p>
                 </div>
                 <div className="flex flex-col items-center w-3/12">
-                    <img alt="package" src="package.svg" width="143" height="148" />
+                    <img alt="pencil" src="pencil.svg" width="143" height="148" />
                     <p className="text-gray-800 font-bold text-2xl text-center 2xl:w-9/12 2xl:mt-10">DESIGN E PROGETTAZIONE</p>
                 </div>
             </div>
@@ -52,4 +53,13 @@ export default function aboutUs() {
             </div>
         </div>
     )
+}
+
+export async function getStaticProps() {
+    const aboutUs = await fetchAPI(`/about-us`);
+
+    return {
+        props: { aboutUs },
+        revalidate: 1,
+    };
 }

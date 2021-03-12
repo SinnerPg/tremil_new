@@ -1,49 +1,54 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, DotGroup, Dot } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
+import { useState } from "react";
+import { getStrapiMedia } from "../lib/media";
 
-export default function SliderComponent() {
+export default function SliderComponent({ slides }: any) {
+    const [slideNumber, setSlideNumber] = useState(0);
+
     return (
         <div className="w-full relative">
             <CarouselProvider
             naturalSlideWidth={100}
             naturalSlideHeight={35}
-            totalSlides={3}
+            totalSlides={slides.length}
+            dragEnabled={false}
             >
                 <Slider>
-                    <Slide index={0}>
-                        <div className="w-full h-full bg-cover bg-no-repeat" style={{backgroundImage: `url(slider1.png)`}}>
-                            <div className="w-full h-full bg-black bg-cover bg-opacity-60 flex justify-center items-center flex-col">
-                                <div className="w-5/12 h-2/4 flex justify-between items-start flex-col">
-                                    <p className="text-white text-xl">PROGETTAZIONE</p>
-                                    <p className="text-white text-6xl font-bold">Realizza in 48h il restyling del tuo punto vendita</p>
-                                    <div className="border-2 border-white flex justify-center items-center w-3/12 h-12">
-                                        <p className="text-white">SCOPRI</p>
+                    {slides.map((slide: any, index: number) => 
+                        <Slide index={index} key={index}>
+                            <div className="w-full h-full bg-cover bg-no-repeat" style={{backgroundImage: `url(${getStrapiMedia(slide.img)})`}}>
+                                {!slide.isRight ? 
+                                    <div className="w-full h-full bg-black bg-cover bg-opacity-60 flex justify-center items-center flex-col">
+                                        <div className="w-6/12 flex items-start flex-col">
+                                            {slide.category && <p className="text-white text-xl">{slide.category}</p>}
+                                            {slide.title && <p className="text-white text-6xl font-bold">{slide.title}</p>}
+                                            {slide.description && <p className="text-white text-3xl mt-6">{slide.description}</p>}
+                                            {slide.button && <div className="border-2 border-white flex justify-center items-center 2xl:w-2/12 2xl:h-12 2xl:mt-10 cursor-pointer">
+                                                <p className="text-white">{slide.button}</p>
+                                            </div>}
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </Slide>
-                    <Slide index={1}>
-                        <div className="w-full h-full flex justify-end items-center bg-cover bg-no-repeat" style={{backgroundImage: `url(slider1.png)`}}>
-                            <div className="w-3/12 flex flex-col 2xl:mr-56">
-                                <p className="text-white text-6xl font-bold text-right">Progetti senza limiti</p>
-                                <p className="text-black text-4xl text-right 2xl:mt-14">La giusta dimensione al tuo brand, per essere un punto di riferimento per i tuoi clienti</p>
-                            </div>
-                        </div>
-                    </Slide>
-                    <Slide index={2}>
-                        <div className="w-full h-full bg-cover bg-no-repeat" style={{backgroundImage: `url(slider1.png)`}}>
-                            <div className="w-full h-full bg-black bg-cover bg-opacity-60 flex justify-center items-center flex-col">
-                                <div className="w-5/12 h-2/4 flex justify-between items-start flex-col">
-                                    <p className="text-white text-xl">PROGETTAZIONE</p>
-                                    <p className="text-white text-6xl font-bold">Realizza in 48h il restyling del tuo punto vendita</p>
-                                    <div className="border-4 border-white flex justify-center items-center w-3/12 h-12">
-                                        <p className="text-white">SCOPRI</p>
+                                :
+                                    <div className="w-full h-full flex justify-end items-center bg-cover bg-no-repeat" style={{backgroundImage: `url(${getStrapiMedia(slide.img)})`}}>
+                                        <div className="w-3/12 flex flex-col 2xl:mr-56">
+                                        {slide.category && <p className="text-white text-xl text-right">{slide.category}</p>}
+                                        {slide.title && <p className="text-white text-6xl font-bold text-right">{slide.title}</p>}
+                                        {slide.description && <p className="text-black text-4xl text-right 2xl:mt-14">{slide.description}</p>}
+                                        {slide.button &&
+                                            <div className="flex justify-center items-center">
+                                                <div className="border-2 border-white flex justify-center items-center 2xl:w-4/12 2xl:h-12 2xl:mt-10 cursor-pointer">
+                                                    <p className="text-white">{slide.button}</p>
+                                                </div>
+                                            </div>}
+                                        </div>
                                     </div>
-                                </div>
+                                }
                             </div>
-                        </div>
-                    </Slide>
+                        </Slide>)
+                    }
                 </Slider>
                 {/* <div className="absolute left-1/2 top-2/4">
                     <Dot slide={0}>
@@ -52,8 +57,8 @@ export default function SliderComponent() {
                     <Dot className="rounded-full bg-white w-4 h-4" slide={1} />
                     <Dot className="rounded-full bg-white w-4 h-4" slide={2} />
                 </div> */}
-                <ButtonBack className="absolute top-80 left-28"><img alt="back" src="left_arrow.svg" /></ButtonBack>
-                <ButtonNext className="absolute top-80 right-28"><img alt="back" src="right_arrow.svg" /></ButtonNext>
+                {slideNumber !== 0 && <ButtonBack className="absolute top-80 left-28"><img alt="back" src="left_arrow.svg" onClick={() => setSlideNumber(slideNumber-1)} /></ButtonBack>}
+                {slideNumber !== slides.length - 1 && <ButtonNext className="absolute top-80 right-28"><img alt="back" src="right_arrow.svg" onClick={() => setSlideNumber(slideNumber+1)} /></ButtonNext>}
             </CarouselProvider>
         </div>
     )

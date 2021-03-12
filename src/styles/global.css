@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+@keyframes easeInNavSection {
+  0%   {transform: translateY(-600px);}
+  100% {transform: translateY(0px);}
+}
+
+@keyframes easeOutNavSection {
+  0%   {transform: translateY(0px); top: 64px}
+  100% {transform: translateY(-600px); top: -800px}
+}

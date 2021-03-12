@@ -1,14 +1,18 @@
 /* eslint-disable prettier/prettier */
 import Head from "next/head";
+import Nav from './Nav';
+import Footer from './Footer';
 
-function Layout({ children }: any) {
+function Layout({ children, global }: any) {
   return (
     <div>
         <Head>
-            <title>Tremil</title>
+            <title>{global.siteName}</title>
         </Head>
         <main>
+            <Nav />
             {children}
+            <Footer />
         </main>
     </div>)
 }
